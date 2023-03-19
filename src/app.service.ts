@@ -27,10 +27,10 @@ export class AppService {
     const totalSupplyNumber = parseFloat(totalSupplyString);
     return totalSupplyNumber;
   }
-  async getAllowance(): Promise<number> {
+  async getAllowance(from: string, to: string): Promise<number> {
     const allowanceBN = await this.contract.allowance(
-      CONTRACT_ADDRESS,
-      CONTRACT_ADDRESS,
+      from,
+      to,
     );
     const allowanceString = ethers.utils.formatEther(allowanceBN);
     const allowanceNumber = parseFloat(allowanceString);
