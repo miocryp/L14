@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { CreatePaymentOrderDTO } from './dtos/createPaymentOrder.dto';
 
 @Controller()
 export class AppController {
@@ -24,11 +25,27 @@ export class AppController {
   async getTotalSupply(): Promise<number> {
     return await this.appService.getTotalSupply();
   }
-  @Get('/allowance/: from/:to')
+  @Get('/allowance')
   async getAllowance(
-    @Param('from') from: string,
-    @Param('to') to: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
   ): Promise<number> {
     return await this.appService.getAllowance(from, to);
+  }
+  @Get('/transaction-status')
+  async getTransactionStatus(
+    @Query('hash')
+    hash: string,
+  ): Promise<string> {
+    return await this.appService.getTransactionStatus(hash);
+  }
+  @Get('/payment-orders')
+  getPaymentOrders() {
+    return this.appService.getPaymentOrders();
+  }
+
+  @Post('/payment-order')
+  createPaymentOrder(@Body() body: CreatePaymentOrderDTO) {
+    return this.appService.createPaymentOrder(body.value, body.secret);
   }
 }
