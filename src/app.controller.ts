@@ -5,17 +5,8 @@ import { CreatePaymentOrderDTO } from './dtos/createPaymentOrder.dto';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  /*
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+ 
 
-  @Get()
-  getOtherThing(): string{
-    return "This is wrong";
-  }
-  */
   @Get('/contract-address')
   getContractAddress(): string {
     return this.appService.getContractAddress();
@@ -40,12 +31,12 @@ export class AppController {
     return await this.appService.getTransactionStatus(hash);
   }
   @Get('/payment-orders')
-  getPaymentOrders() {
-    return this.appService.getPaymentOrders();
+  async getPaymentOrders() {
+    return await this.appService.getPaymentOrders();
   }
 
   @Post('/payment-order')
-  createPaymentOrder(@Body() body: CreatePaymentOrderDTO) {
-    return this.appService.createPaymentOrder(body.value, body.secret);
+  async createPaymentOrder(@Body() body: CreatePaymentOrderDTO) {
+    return await this.appService.createPaymentOrder(body.value, body.secret);
   }
 }

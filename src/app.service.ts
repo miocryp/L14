@@ -11,7 +11,7 @@ export class AppService {
   provider: ethers.providers.Provider;
   contract: ethers.Contract;
 
-  paymentOrders: PaymentOrder[] = [];
+  paymentOrders: PaymentOrder[];
 
   constructor() {
     this.provider = ethers.getDefaultProvider('goerli');
@@ -20,6 +20,7 @@ export class AppService {
       tokenJson.abi,
       this.provider,
     );
+    this.paymentOrders = [];
   }
   getContractAddress(): string {
     return this.contract.address;
@@ -44,10 +45,10 @@ export class AppService {
     return txReceipt.status == 1 ? 'Completed' : 'Reverted';
   }
 
-  getPaymentOrder() {
+  getPaymentOrders() {
     return this.PaymentOrders;
   }
-  creatPaymentOrder(value: number, secret: string) {
+  createPaymentOrder(value: number, secret: string) {
     const newPaymentOrder = new PaymentOrder();
     newPaymentOrder.value = value;
     newPaymentOrder.secret = secret;
@@ -55,10 +56,12 @@ export class AppService {
     this.paymentOrders.push(newPaymentOrder);
     return newPaymentOrder.id;
   }
-  /*
-  [x: string]: any;
-  getHello(): string {
-    return 'Hello visitor number ' + (Math.random() * 1000).toFixed(0);
-  }
-  */
+
+  //fulfillPaymentOrder(id: number, secret: string, address: string) {
+    // ToDo: check if the secret is correct
+    // Pick the pkey from env
+    // Build a singer
+    // Connect signer to the contract
+    // Call the Mint function passin value to mint to address
+ // }
 }
